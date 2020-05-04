@@ -32,9 +32,11 @@ bool cmdOptionExists(char **begin, char **end, const std::string &option)
 void help(char **argv)
 {
     std::cout << "\n"
-              << "USAGE: " << argv[0] << " -i infile [options]\n"
+              << "Enhance images by removing black borders and improving image contrast\n"
+              << "USAGE: " << argv[0] << " -i infile [options] -o . -m\n"
               << "  -i --input_file (string) Input file\n"
               << "  -o --out_dir (string) Output directory\n"
+              << "  -c --contrast-algorithm (string) Contrast algorithm: LDR or IAGCWD\n"
               << std::endl;
 }
 
@@ -94,17 +96,17 @@ int main(int argc, char **argv)
     // algorithm choice
 
     char *contrast_enhance_method;
-    if (cmdOptionExists(argv, argv + argc, "-m"))
+    if (cmdOptionExists(argv, argv + argc, "-c"))
     {
-        contrast_enhance_method = getCmdOption(argv, argv + argc, "-m");
+        contrast_enhance_method = getCmdOption(argv, argv + argc, "-c");
     }
-    else if (cmdOptionExists(argv, argv + argc, "--m"))
+    else if (cmdOptionExists(argv, argv + argc, "--contrast-algorithm"))
     {
-        contrast_enhance_method = getCmdOption(argv, argv + argc, "--m");
+        contrast_enhance_method = getCmdOption(argv, argv + argc, "--contrast-algorithm");
     }
     else
     {
-        std::cout << "Missing contrast enhancement method (MLR or IAGCWD)" << std::endl;
+        std::cout << "Missing contrast enhancement method (LDR or IAGCWD)" << std::endl;
         help(argv);
         return 0;
     }
